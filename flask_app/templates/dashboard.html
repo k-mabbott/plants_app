@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/style.css') }}">
+    <title>PLANTSSS</title>
+    <style>
+        .main-bg {
+            background-image: url("{{ url_for('static', filename='/images/dark-monst.jpg') }}");
+        }
+    </style>
+</head>
+<body class="main-bg">
+    <header class="d-flex p-2 align-middle border-bottom border-dark justify-content-between bg-dark text-white border-bottom border-secondary mb-4">
+        <h3>Plants R Us'</h3>
+        <div class="d-flex gap-3 align-middle">
+            <span class="align-self-center">Hi {{logged_user.first_name}} </span>
+            <a href="/" class="btn btn-success">Home</a>
+            <a href="/user/logout" class="btn btn-warning">Logout</a>
+        </div>
+    </header>
+    <section class="d-flex gap-3 mx-5">
+        <div class="d-flex flex-column px-4 py-3 gap-3 bg-messages col-5">
+                <h4 class="text-decoration-underlined"><u>{{all_messages|length}} Message(s) for you </u></h4>
+                {% for message in all_messages %}
+                <div class="d-flex justify-content-between border border-secondary rounded p-2">
+                    <div>
+                        <p>{{message.sender.first_name}} said: <span class="text-warning">{{message.created_at}}</span></p>
+                        <p class="ps-4">"{{message.message}}"</p>
+                    </div>
+                    <a href="/message/delete/{{message.id}}" class="btn btn-outline-danger p-1 align-self-center">
+                        <img src="static/images/trash.png" alt="Trash Can" class="trash">
+                    </a>
+                </div>
+                {% endfor %}
+        </div>
+        <div class="d-flex flex-column px-4 py-3 gap-3 bg-messages col-7">
+            <h4 class="text-decoration-underlined"><u>Send Messages</u></h4>
+            <span class="text-warning">You have sent {{num_of_sent}} messages so far</span>
+            <div class="d-flex flex-column gap-3">
+                {% for user in all_users %}
+                <form class="d-flex gap-3" action="/create/message/{{user.id}}" method="post">
+                    <label for="message{{user.id}}" class="col-2">
+                        <span class="d-block">{{user.first_name}}</span>
+                        <span class="d-block">{{user.last_name}}:</span>
+                    </label>
+                    <textarea name="message" id="message{{user.id}}" cols="30" rows="2" class="col-8 bg-dark text-white" placeholder="Send {{user.first_name}} a Message!"></textarea>
+                    <button class="btn btn-info align-self-end" type="submit" class="col-2">Send</button>
+                </form>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</body>
+</html>

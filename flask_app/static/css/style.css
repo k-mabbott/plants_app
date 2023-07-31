@@ -1,0 +1,21 @@
+
+body, html, main {
+    height: 100%;
+  }
+
+header {
+    position: sticky;
+    top: 0;
+}
+
+.trash {
+    height: 40px;
+}
+.bg-messages{
+    color:aliceblue;
+    background-color: rgba(12, 66, 21, 0.877);
+}
+.text-gold {
+    color:goldenrod;
+    font-weight: 600; 
+}
